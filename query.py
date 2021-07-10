@@ -17,7 +17,7 @@ def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of
     print(f'checking {source} for {site_name} campsites starting {start_date}')
     if source == 'reserve_california':
         result = check_reserve_california(facility_id, start_date, number_of_nights, consecutive_nights_required)
-    elif source == 'recreation_gov':
+    elif source == 'recreation_gov' or source == 'reserve_america':
         result = check_recreation_gov_campsites(facility_id, start_date, number_of_nights, consecutive_nights_required)
     else:
         raise ValueError(f'source {source} not supported.')
