@@ -1,0 +1,44 @@
+# permits:
+  # reserve_america:
+    # - name: Desolation Wilderness
+    #   permit_id: 233261
+    #   sites:
+    #     - name: Half Moon lake
+    #       id: 338
+    #     - name: Grouse lakes
+    #       id: 292
+    #     - name: Hemlock
+    #       id: 346
+    #     - name: Lower Velma
+    #       id: 332
+    #     - name: Middle Velma
+    #       id: 331
+    #     - name: Sussie
+    #       id: 334
+    #   start_date: 08-15-2020
+    #   number_of_nights: 1
+    #   number_of_permits: 2
+    #   consecutive_nights_required: 1
+campsites:
+  # reserve_california:
+    # - name: Elk Prairee 10/10
+    #   facility_id: 631
+    #   start_date: 10-9-2020
+    #   number_of_nights: 3
+    #   consecutive_nights_required: 2
+  reserve_america:
+    - name: Tuolomne lakes 1
+      facility_id: 232448
+      start_date: 07-23-2021
+      number_of_nights: 2
+      consecutive_nights_required: 1
+    - name: Tuolomne lakes 2
+      facility_id: 232448
+      start_date: 07-30-2021
+      number_of_nights: 2
+      consecutive_nights_required: 1
+    - name: Tuolomne lakes 2
+      facility_id: 232448
+      start_date: 08-06-2021
+      number_of_nights: 2
+      consecutive_nights_required: 1

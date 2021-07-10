@@ -1,0 +1,1 @@
+clock: bin/qgpass python -u query.py
