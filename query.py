@@ -1,12 +1,15 @@
-from apscheduler.schedulers.blocking import BlockingScheduler
-import requests
+import ast
 import os
-from fetch_data import check_reserve_california, check_recreation_gov_campsites, check_recreation_gov_permit
-import yaml
 import smtplib
 import ssl
 from datetime import datetime
-import ast
+
+import requests
+import yaml
+from apscheduler.schedulers.blocking import BlockingScheduler
+
+from fetch_data import (check_recreation_gov_campsites,
+                        check_recreation_gov_permit, check_reserve_california)
 
 
 def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of_nights, consecutive_nights_required):
@@ -61,9 +64,11 @@ def send_email(message):
 
 
 def send_sms(message):
-    for user in receiver_sms:
-        resp = requests.post(os.environ['BLOWERIO_URL'] + '/messages', data={'to': user, 'message': message})
-        print(resp.json())
+    if os.environ.get('BLOWERIO_URL'):
+        # blowerio is set
+        for user in receiver_sms:
+            resp = requests.post(os.environ['BLOWERIO_URL'] + '/messages', data={'to': user, 'message': message})
+            print(resp.json())
 
 
 def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None):
@@ -74,6 +79,7 @@ def notify_users(source, site_name, start_date, number_of_nights, consecutive_ni
 
     message = f'found availability on {source} for {site_name} starting {start_date} for {consecutive_nights_required} night(s).'
     send_email(message)
+    send_sms(message)
 
     if (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits) in notified_sites:
         notified_sites[key] += 1
