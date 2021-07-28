@@ -27,8 +27,8 @@ campsites:
     #   number_of_nights: 3
     #   consecutive_nights_required: 2
   reserve_america:
-    # - name: Hope Valley
-    #   facility_id: 232185
-    #   start_date: 08-06-2021
-    #   number_of_nights: 2
-    #   consecutive_nights_required: 2
+    - name: Tuolomne meadows
+      facility_id: 232448
+      start_date: 08-13-2021
+      number_of_nights: 2
+      consecutive_nights_required: 1
