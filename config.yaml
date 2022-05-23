@@ -27,8 +27,8 @@ campsites:
     #   number_of_nights: 3
     #   consecutive_nights_required: 2
   reserve_america:
-    - name: Tuolomne meadows
-      facility_id: 232448
-      start_date: 08-13-2021
-      number_of_nights: 2
-      consecutive_nights_required: 1
+    - name: Silver lake east
+      facility_id: 232263
+      start_date: 05-27-2022
+      number_of_nights: 3
+      consecutive_nights_required: 2
