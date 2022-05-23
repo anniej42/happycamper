@@ -29,6 +29,6 @@ campsites:
   reserve_america:
     - name: Silver lake east
       facility_id: 232263
-      start_date: 05-27-2022
-      number_of_nights: 3
-      consecutive_nights_required: 2
+      start_date: 05-26-2022
+      number_of_nights: 2
+      consecutive_nights_required: 1
