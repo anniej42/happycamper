@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery-3.6.0.min.js"></script>
+    <title>Edit config</title>
+    <style type="text/css" media="screen">
+      #editor {
+        white-space: pre;
+        position: absolute;
+        top: 10%;
+        right: 20%;
+        bottom: 10%;
+        left: 20%;
+      }
+      #save {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="editor">Loading...</div>
+
+    <button id="save">SAVE</button>
+
+    <script>
+      var editor = ace.edit("editor");
+      var buildDom = require("ace/lib/dom").buildDom;
+      editor.setTheme("ace/theme/monokai");
+      editor.session.setMode("ace/mode/yaml");
+
+      $(document).ready(function () {
+        $.get("config.yaml", function (data) {
+          console.log(data);
+          $("#editor").html(data);
+        });
+      });
+
+      $("#save").onClick(() => {
+          
+      })
+    </script>
+  </body>
+</html>
