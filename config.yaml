@@ -27,8 +27,19 @@ campsites:
     #   number_of_nights: 3
     #   consecutive_nights_required: 2
   reserve_america:
-    - name: Silver lake east
-      facility_id: 232263
-      start_date: 05-26-2022
+    - name: Whitehorse
+      facility_id: 234738
+      start_date: 06-10-2022
       number_of_nights: 2
-      consecutive_nights_required: 1
+      consecutive_nights_required: 2
+      reserve_america:
+    - name: Sundew
+      facility_id: 10110742
+      start_date: 06-10-2022
+      number_of_nights: 2
+      consecutive_nights_required: 2
+    - name: Mill
+      facility_id: 10114392
+      start_date: 06-10-2022
+      number_of_nights: 2
+      consecutive_nights_required: 2
