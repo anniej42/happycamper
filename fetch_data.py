@@ -83,11 +83,9 @@ def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, co
     for month_data in api_data:
         site_ids = list(month_data.get('campsites', {}).keys())
         for date_key in dates_of_interest:
-            print(month_data['campsites'][site_id]) 
             available_bool = any([month_data['campsites'][site_id]['availabilities'].get(date_key) == 'Available'
                                   for site_id in site_ids
-                                  if month_data['campsites'][site_id]['capacity_rating'] == 'Single' and 
-                                    month_data['campsites'][site_id]['campsite_type'] != 'EQUESTRIAN NONELECTRIC'])
+                                  if month_data['campsites'][site_id]['capacity_rating'] == 'Single' and month_data['campsites'][site_id]['campsite_type'] != 'EQUESTRIAN NONELECTRIC'])
             availability_array.append(available_bool)
 
     max_consecutive = evaluate_boolean_array(availability_array)
