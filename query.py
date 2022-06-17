@@ -26,7 +26,7 @@ def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of
         raise ValueError(f'source {source} not supported.')
 
     if result:
-        notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required)
+        notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, facility_id=facility_id)
 
 
 def permit_schedule_cron(site_name, permit_id, sites, number_of_nights, number_of_permits, start_date, consecutive_nights_required):
@@ -41,7 +41,7 @@ def permit_schedule_cron(site_name, permit_id, sites, number_of_nights, number_o
                                           start_date, number_of_nights, consecutive_nights_required)
 
     if result:
-        notify_users(source, site_name, start_date, number_of_nights,
+        notify_users(source, permit_id, site_name, start_date, number_of_nights,
                      consecutive_nights_required, number_of_permits=number_of_permits)
 
 
@@ -71,13 +71,17 @@ def send_sms(message):
             print(resp.json())
 
 
-def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None):
+def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None, facility_id==None):
     key = (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits)
     if notified_sites.get(key, 0) >= 3:
         print(f'already notified, skipping')
         return
 
     message = f'found availability on {source} for {site_name} starting {start_date} for {consecutive_nights_required} night(s).'
+
+    if facility_id is not None and (source == 'recreation_gov' or source == 'reserve_america'):
+        message += f' Book campsite at https://www.recreation.gov/camping/campgrounds/{facility_id}.'
+
     send_email(message)
     send_sms(message)
 
