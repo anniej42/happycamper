@@ -71,7 +71,7 @@ def send_sms(message):
             print(resp.json())
 
 
-def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None, facility_id==None):
+def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None, facility_id=None):
     key = (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits)
     if notified_sites.get(key, 0) >= 3:
         print(f'already notified, skipping')
