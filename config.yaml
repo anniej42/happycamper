@@ -38,7 +38,27 @@ campsites:
       number_of_nights: 1
       consecutive_nights_required: 1
     - name: Mallard Marsh Campground
-      facility_id: 251581 #10114392
+      facility_id: 251581
+      start_date: 07-03-2022
+      number_of_nights: 1
+      consecutive_nights_required: 1
+    - name: POINT CAMPGROUND - DESCHUTES
+      facility_id: 267560
+      start_date: 07-03-2022
+      number_of_nights: 1
+      consecutive_nights_required: 1
+    - name: South Campground - Hosmer Lake (OR)
+      facility_id: 251451
+      start_date: 07-03-2022
+      number_of_nights: 1
+      consecutive_nights_required: 1
+    - name: Lava Lake Campground
+      facility_id: 251448
+      start_date: 07-03-2022
+      number_of_nights: 1
+      consecutive_nights_required: 1
+    - name: Little Lava Lake
+      facility_id: 233215
       start_date: 07-03-2022
       number_of_nights: 1
       consecutive_nights_required: 1
