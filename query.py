@@ -73,7 +73,7 @@ def send_sms(message):
 
 def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None, facility_id=None):
     key = (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits)
-    if notified_sites.get(key, 0) >= 3:
+    if notified_sites.get(key, 0) >= 1:
         print(f'already notified, skipping')
         return
 
@@ -82,7 +82,7 @@ def notify_users(source, site_name, start_date, number_of_nights, consecutive_ni
     if facility_id is not None and (source == 'recreation_gov' or source == 'reserve_america'):
         message += f' Book campsite at https://www.recreation.gov/camping/campgrounds/{facility_id}.'
 
-    send_email(message)
+    # send_email(message)
     send_sms(message)
 
     if (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits) in notified_sites:
