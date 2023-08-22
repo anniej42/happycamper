@@ -56,9 +56,11 @@ def get_proxies():
 
 
 def check_reserve_california(facility_id, start_date, number_of_nights, consecutive_nights_required):
+    proxies = get_proxies()
+    print(f'proxies {proxies}')
     response = requests.post(
         url='https://calirdr.usedirect.com/rdr/rdr/search/grid',
-        proxies=get_proxies(),
+        proxies=proxies,
         headers={
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Content-Type': 'application/json',
@@ -92,6 +94,8 @@ def check_reserve_california(facility_id, start_date, number_of_nights, consecut
 
 
 def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, consecutive_nights_required):
+    proxies = get_proxies()
+    print(f'proxies {proxies}')
     start_date = datetime.strptime(start_date, '%m-%d-%Y')
     end_date = start_date + timedelta(number_of_nights - 1)
     start_of_month = datetime(start_date.year, start_date.month, 1)
@@ -109,7 +113,7 @@ def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, co
         response = requests.get(
             url='https://www.recreation.gov/api/camps/availability/campground/{}/month'.format(
                 facility_id),
-            proxies=get_proxies(),
+            proxies=proxies,
             params={
                 'start_date': format_recreation_gov_date_as_input(month_date),
             },
