@@ -1,6 +1,6 @@
 import modal
 
-stub = modal.Stub("example-hello-world")
+stub = modal.Stub("campsites")
 stub.notified_sites = modal.Dict.new()
 
 import ast
@@ -15,11 +15,6 @@ from dateutil import rrule
 
 from fetch_data import (check_recreation_gov_campsites,
                         check_recreation_gov_permit, check_reserve_california)
-
-# start date is american 06-30-2020
-# number of nights defines the range to look in
-# consecutive_nights_required is the min number of nights we want consecutive
-# we can add smth like max_switches later
 
 
 def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of_nights, consecutive_nights_required):
@@ -36,8 +31,9 @@ def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of
         raise ValueError(f'source {source} not supported.')
 
     print(f'checking {source} for {site_name} campsites starting {start_date} result {result}')
+    url = f'https://www.recreation.gov/camping/campgrounds/{facility_id}' if source == 'recreation_gov' or source == 'reserve_america' else ''
     if result:
-        notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required)
+        notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, url=url)
 
 def permit_schedule_cron(site_name, permit_id, sites, number_of_nights, number_of_permits, start_date, consecutive_nights_required):
     if datetime.strptime(start_date, "%m-%d-%Y") < datetime.today():
@@ -65,13 +61,13 @@ def send_email(message):
             text = f'From: {sender}\nTo: {receiver}\nSubject: availability\n\n{message}'
             server.sendmail(sender, receiver, text)
 
-def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits=None):
+def notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, url ="", number_of_permits=None):
     key = (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits)
     if stub.notified_sites.contains(key) and  stub.notified_sites.get(key)>= 3:
         print(f'already notified, skipping')
         return
 
-    message = f'found availability on {source} for {site_name} starting {start_date} for {consecutive_nights_required} night(s).'
+    message = f'found availability for {site_name} starting {start_date} for {consecutive_nights_required} night(s) {url}.'
     send_email(message)
 
     if (site_name, start_date, number_of_nights, consecutive_nights_required, number_of_permits) in stub.notified_sites:
@@ -79,19 +75,18 @@ def notify_users(source, site_name, start_date, number_of_nights, consecutive_ni
     else:
         stub.notified_sites[key] = 1
 
+@stub.function(schedule=modal.Period(hours=4))
 def clear_notified():
-    stub.notified_sites = {}
-
+    stub.notified_sites = modal.Dict.new()
 
 my_image = modal.Image.debian_slim().pip_install("python-dateutil", "requests", "PyYAML", "free-proxy")
 
 def get_data():
     return yaml.full_load(os.environ["CAMPSITES"])
 
-@stub.function(image=my_image, secrets=[modal.Secret.from_name("campsites"), modal.Secret.from_name("sendgrid")])
+@stub.function(image=my_image, secrets=[modal.Secret.from_name("campsites"), modal.Secret.from_name("sendgrid")], schedule=modal.Period(minutes=1))
 def check_availability():
     data = get_data()
-
     if data:
         for source, entries in data.get('campsites', {}).items():
             for entry in entries:

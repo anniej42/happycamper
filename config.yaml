@@ -27,18 +27,63 @@ campsites:
     #   number_of_nights: 3
     #   consecutive_nights_required: 2
   reserve_america:
-    # - name: Reversed creek campground
-    #   facility_id: 233235
-    #   start_date: 09-12-2023
-    #   number_of_nights: 2
-    #   consecutive_nights_required: 2
-    - name: June lake campground
+    - name: June lake
       facility_id: 232268
-      start_date: 09-12-2023
-      number_of_nights: 2
+      start_date: 09-01-2023
+      number_of_nights: 3
       consecutive_nights_required: 2
-    # - name: East fork
-    #   facility_id: 232396
-    #   start_date: 08-12-2022
-    #   number_of_nights: 2
-    #   consecutive_nights_required: 2
+    - name: Lake mary
+      facility_id: 233404
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Reversed creek
+      facility_id: 233235
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Rock creek lake
+      facility_id: 233907
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Sherwin creek
+      facility_id: 232271
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Tuff 
+      facility_id: 232241
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Twin lakes
+      facility_id: 234329
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: East fork
+      facility_id: 232396
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: French camp
+      facility_id: 232395
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Convict lake
+      facility_id: 234311
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Coldwater
+      facility_id: 234290
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
+    - name: Lake mary
+      facility_id: 233404
+      start_date: 09-01-2023
+      number_of_nights: 3
+      consecutive_nights_required: 2
