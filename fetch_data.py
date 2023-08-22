@@ -1,6 +1,7 @@
-import requests
 import json
 from datetime import datetime, timedelta
+
+import requests
 from dateutil import rrule
 
 # start date is american 06-30-2020
@@ -8,16 +9,56 @@ from dateutil import rrule
 # consecutive_nights_required is the min number of nights we want consecutive
 # we can add smth like max_switches later
 
-proxies = {
-    'http': 'http://localhost:8080',
-    'https': 'http://localhost:8080'
-}
+
+def get_proxies():
+    resp = requests.get(
+        url='http://pubproxy.com/api/proxy?last_check=60&country=US,CA',
+        data=json.dumps({
+            'last_check': 30,
+            'country': 'US,CA',
+            'type': 'http',
+            'https': True,
+            'post': True
+        })
+    )
+
+    """
+    sample response
+        {
+        "data":[
+            {
+                "ipPort":"123.12.12.123:80",
+                "ip":"123.12.12.123",
+                "port":"80",
+                "country":"US",
+                "last_checked":"2023-08-22 10:29:33",
+                "proxy_level":"elite",
+                "type":"http",
+                "speed":"2.2",
+                "support":{
+                    "https":1,
+                    "get":1,
+                    "post":1,
+                    "cookies":1,
+                    "referer":1,
+                    "user_agent":1,
+                    "google":1
+                }
+            }
+        ],
+        "count":1
+        }
+    """
+    return {
+        'http': resp.json()['data'][0]['ipPort'],
+        'https': resp.json()['data'][0]['ipPort']
+    }
 
 
 def check_reserve_california(facility_id, start_date, number_of_nights, consecutive_nights_required):
     response = requests.post(
         url='https://calirdr.usedirect.com/rdr/rdr/search/grid',
-        proxies=proxies,
+        proxies=get_proxies(),
         headers={
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Content-Type': 'application/json',
@@ -44,7 +85,8 @@ def check_reserve_california(facility_id, start_date, number_of_nights, consecut
 
     max_consecutive = evaluate_boolean_array(days_available)
 
-    print(f'[Reserve California] facility {facility_id} {start_date} days={days_available} max_consecutive={max_consecutive}')
+    print(
+        f'[Reserve California] facility {facility_id} {start_date} days={days_available} max_consecutive={max_consecutive}')
 
     return max_consecutive >= consecutive_nights_required
 
@@ -53,7 +95,8 @@ def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, co
     start_date = datetime.strptime(start_date, '%m-%d-%Y')
     end_date = start_date + timedelta(number_of_nights - 1)
     start_of_month = datetime(start_date.year, start_date.month, 1)
-    months = list(rrule.rrule(rrule.MONTHLY, dtstart=start_of_month, until=end_date))
+    months = list(rrule.rrule(
+        rrule.MONTHLY, dtstart=start_of_month, until=end_date))
 
     dates_of_interest = []
     for delta in range(number_of_nights):
@@ -64,8 +107,9 @@ def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, co
     api_data = []
     for month_date in months:
         response = requests.get(
-            url='https://www.recreation.gov/api/camps/availability/campground/{}/month'.format(facility_id),
-            proxies=proxies,
+            url='https://www.recreation.gov/api/camps/availability/campground/{}/month'.format(
+                facility_id),
+            proxies=get_proxies(),
             params={
                 'start_date': format_recreation_gov_date_as_input(month_date),
             },
@@ -90,7 +134,8 @@ def check_recreation_gov_campsites(facility_id, start_date, number_of_nights, co
 
     max_consecutive = evaluate_boolean_array(availability_array)
 
-    print(f'[recreation.gov] facility {facility_id} {start_date} days={availability_array} max_consecutive={max_consecutive}')
+    print(
+        f'[recreation.gov] facility {facility_id} {start_date} days={availability_array} max_consecutive={max_consecutive}')
 
     return max_consecutive >= consecutive_nights_required
 
@@ -99,7 +144,8 @@ def check_recreation_gov_permit(permit_id, site_ids, number_of_people, start_dat
     start_date = datetime.strptime(start_date, '%m-%d-%Y')
     end_date = start_date + timedelta(number_of_nights - 1)
     start_of_month = datetime(start_date.year, start_date.month, 1)
-    months = list(rrule.rrule(rrule.MONTHLY, dtstart=start_of_month, until=end_date))
+    months = list(rrule.rrule(
+        rrule.MONTHLY, dtstart=start_of_month, until=end_date))
 
     dates_of_interest = []
     for delta in range(number_of_nights):
@@ -110,8 +156,9 @@ def check_recreation_gov_permit(permit_id, site_ids, number_of_people, start_dat
     api_data = []
     for month_date in months:
         response = requests.get(
-            url='https://www.recreation.gov/api/permits/{}/availability/month'.format(permit_id),
-            proxies=proxies,
+            url='https://www.recreation.gov/api/permits/{}/availability/month'.format(
+                permit_id),
+            proxies=get_proxies(),
             params={
                 'start_date': format_recreation_gov_date_as_input(month_date),
             },
@@ -135,7 +182,8 @@ def check_recreation_gov_permit(permit_id, site_ids, number_of_people, start_dat
 
     max_consecutive = evaluate_boolean_array(availability_array)
 
-    print(f'[recreation.gov] permit {permit_id} {start_date} number_of_people={number_of_people} days={availability_array} max_consecutive={max_consecutive}')
+    print(
+        f'[recreation.gov] permit {permit_id} {start_date} number_of_people={number_of_people} days={availability_array} max_consecutive={max_consecutive}')
 
     return max_consecutive >= consecutive_nights_required
 
