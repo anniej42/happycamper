@@ -20,45 +20,25 @@
     #   number_of_permits: 2
     #   consecutive_nights_required: 1
 campsites:
-  reserve_california:
-    - name: Elk Prairee 10/10
-      facility_id: 631
-      start_date: 10-9-2020
-      number_of_nights: 3
+  # reserve_california:
+    # - name: Elk Prairee 10/10
+    #   facility_id: 631
+    #   start_date: 10-9-2020
+    #   number_of_nights: 3
+    #   consecutive_nights_required: 2
+  reserve_america:
+    # - name: Reversed creek campground
+    #   facility_id: 233235
+    #   start_date: 09-12-2023
+    #   number_of_nights: 2
+    #   consecutive_nights_required: 2
+    - name: June lake campground
+      facility_id: 232268
+      start_date: 09-12-2023
+      number_of_nights: 2
       consecutive_nights_required: 2
-  # reserve_america:
-  #   - name: Soda Creek Campground
-  #     facility_id: 273782
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: Elk Lake Campground
-  #     facility_id: 267555
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: Mallard Marsh Campground
-  #     facility_id: 251581
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: POINT CAMPGROUND - DESCHUTES
-  #     facility_id: 267560
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: South Campground - Hosmer Lake (OR)
-  #     facility_id: 251451
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: Lava Lake Campground
-  #     facility_id: 251448
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
-  #   - name: Little Lava Lake
-  #     facility_id: 233215
-  #     start_date: 07-03-2022
-  #     number_of_nights: 1
-  #     consecutive_nights_required: 1
+    # - name: East fork
+    #   facility_id: 232396
+    #   start_date: 08-12-2022
+    #   number_of_nights: 2
+    #   consecutive_nights_required: 2

@@ -25,6 +25,7 @@ def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of
     else:
         raise ValueError(f'source {source} not supported.')
 
+    print(f'checking {source} for {site_name} campsites starting {start_date} result {result}')
     if result:
         notify_users(source, site_name, start_date, number_of_nights, consecutive_nights_required, facility_id=facility_id)
 
