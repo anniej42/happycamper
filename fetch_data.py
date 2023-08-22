@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import requests
 from dateutil import rrule
+from fp.fp import FreeProxy
 
 # start date is american 06-30-2020
 # number of nights defines the range to look in
@@ -11,47 +12,10 @@ from dateutil import rrule
 
 
 def get_proxies():
-    resp = requests.get(
-        url='http://pubproxy.com/api/proxy?last_check=60&country=US,CA',
-        data=json.dumps({
-            'last_check': 30,
-            'country': 'US,CA',
-            'type': 'http',
-            'https': True,
-            'post': True
-        })
-    )
-
-    """
-    sample response
-        {
-        "data":[
-            {
-                "ipPort":"123.12.12.123:80",
-                "ip":"123.12.12.123",
-                "port":"80",
-                "country":"US",
-                "last_checked":"2023-08-22 10:29:33",
-                "proxy_level":"elite",
-                "type":"http",
-                "speed":"2.2",
-                "support":{
-                    "https":1,
-                    "get":1,
-                    "post":1,
-                    "cookies":1,
-                    "referer":1,
-                    "user_agent":1,
-                    "google":1
-                }
-            }
-        ],
-        "count":1
-        }
-    """
+    proxy = FreeProxy(country_id=['US', 'CA'], https=True).get()
     return {
-        'http': resp.json()['data'][0]['ipPort'],
-        'https': resp.json()['data'][0]['ipPort']
+        'http': proxy,
+        'https': proxy
     }
 
 

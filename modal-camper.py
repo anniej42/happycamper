@@ -1,5 +1,3 @@
-import sys
-
 import modal
 
 stub = modal.Stub("example-hello-world")
@@ -9,11 +7,10 @@ import ast
 import os
 import smtplib
 import ssl
+from datetime import datetime
 
 import requests
 import yaml
-import json
-from datetime import datetime, timedelta
 from dateutil import rrule
 
 from fetch_data import (check_recreation_gov_campsites,
@@ -24,10 +21,6 @@ from fetch_data import (check_recreation_gov_campsites,
 # consecutive_nights_required is the min number of nights we want consecutive
 # we can add smth like max_switches later
 
-# proxies = {
-#     'http': 'http://localhost:8080',
-#     'https': 'http://localhost:8080'
-# }
 
 def campsite_schedule_cron(source, site_name, facility_id, start_date, number_of_nights, consecutive_nights_required):
     if datetime.strptime(start_date, "%m-%d-%Y") < datetime.today():
@@ -51,14 +44,14 @@ def permit_schedule_cron(site_name, permit_id, sites, number_of_nights, number_o
         print(site_name, permit_id, sites, number_of_nights, number_of_permits,
               start_date, consecutive_nights_required, 'skipped')
         return
-    print(f'checking {source} for {site_name} permits starting {start_date}')
+    print(f'checking recreation.gov for {site_name} permits starting {start_date}')
     site_ids = [str(entry['id']) for entry in sites]
 
     result = check_recreation_gov_permit(permit_id, site_ids, number_of_permits,
                                           start_date, number_of_nights, consecutive_nights_required)
     
     if result:
-        notify_users(source, site_name, start_date, number_of_nights,
+        notify_users('recreation.gov', site_name, start_date, number_of_nights,
                      consecutive_nights_required, number_of_permits=number_of_permits)
 
 
@@ -90,7 +83,7 @@ def clear_notified():
     stub.notified_sites = {}
 
 
-my_image = modal.Image.debian_slim().pip_install("python-dateutil", "requests", "PyYAML")
+my_image = modal.Image.debian_slim().pip_install("python-dateutil", "requests", "PyYAML", "free-proxy")
 
 def get_data():
     return yaml.full_load(os.environ["CAMPSITES"])
